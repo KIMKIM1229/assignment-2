@@ -42,6 +42,8 @@ async function main() {
   rl.close();
 
   const result = calculateBill(billData);
+
+  // 顯示結果
   console.log("\n===== 聚餐分帳結果 =====");
   console.log(`日期：${billData.date}`);
   console.log(`地點：${billData.location}`);

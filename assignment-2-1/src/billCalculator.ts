@@ -33,8 +33,18 @@ export interface BillItem {
   
     const perPersonShare = sharedCount > 0 ? sharedTotal / sharedCount : 0;
   
+    // 為每個人計算應付金額，並分配小費
     for (const key in individualAmounts) {
-      individualAmounts[key] += perPersonShare;
+      individualAmounts[key] += perPersonShare; // 加上均分項目的金額
+  
+      // 加上小費分配
+      const shareOfTip = (sharedCount > 0) ? (tip / sharedCount) : (tip / Object.keys(individualAmounts).length);
+      individualAmounts[key] += shareOfTip;
+    }
+  
+    // 如果有未處理嘅人，佢哋應該負擔自己負責嘅項目同小費
+    if (sharedCount === 0) {
+      individualAmounts["Shared"] = sharedTotal + tip;
     }
   
     return { total, tip, grandTotal, individualAmounts };
